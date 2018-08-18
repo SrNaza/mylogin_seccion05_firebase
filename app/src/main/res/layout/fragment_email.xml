@@ -15,18 +15,40 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="218dp">
+        android:layout_height="242dp">
 
         <Button
             android:id="@+id/btnFirebase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Do something here" />
+
+        <EditText
+            android:id="@+id/name_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Do something here"
-            android:layout_alignParentLeft="true" />
-    </RelativeLayout>
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="Enter your name"
+            android:inputType="textPersonName" />
 
+        <EditText
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="74dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+    </RelativeLayout>
 
 
 </FrameLayout>

@@ -20,6 +20,7 @@ import com.example.tecomca.mylogin_seccion05.Fragments.AlertFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.EmailFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import static com.example.tecomca.mylogin_seccion05.R.id.toolbar;
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.menu_logout:
                         logOut();
+                        FirebaseAuth.getInstance().signOut();
                         return true;
                     case R.id.menu_forget_logout:
                         removeSharedPreferences();

@@ -3,6 +3,7 @@ package com.example.tecomca.mylogin_seccion05.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,10 @@ import android.widget.Toast;
 
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.Util;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private Switch switchRemember;
     private Button btnLogin;
+    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,19 @@ public class LoginActivity extends AppCompatActivity {
 
         bindUI();
 
+
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         setCredentialsIfExist();
-        
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,14 +62,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
     private void bindUI() {
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         switchRemember = (Switch) findViewById(R.id.switchRemember);
         btnLogin = (Button) findViewById(R.id.buttonLogin);
+        btnRegister = (Button) findViewById(R.id.buttonRegister);
     }
 
     private void setCredentialsIfExist() {

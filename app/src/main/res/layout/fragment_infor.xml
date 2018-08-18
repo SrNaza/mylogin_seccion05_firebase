@@ -6,11 +6,32 @@
     tools:context=".Fragments.InforFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="36dp"
-        android:text="Information" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="581dp">
+
+        <ListView
+            android:id="@+id/user_list"
+            android:layout_width="match_parent"
+            android:layout_height="329dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="251dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:text="Information"
+            android:textSize="36dp"
+            android:layout_alignParentLeft="true" />
+
+    </RelativeLayout>
+
+
 
 </FrameLayout>
