@@ -1,4 +1,4 @@
-package com.example.tecomca.mylogin_seccion05.Splash;
+package com.example.tecomca.mylogin_seccion05.Activities.Splash;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

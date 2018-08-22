@@ -6,27 +6,27 @@
         <item
             android:id="@+id/menu_mail"
             android:icon="@android:drawable/ic_dialog_email"
-            android:title="Email"/>
+            android:title="Categorias"/>
         <item
             android:id="@+id/menu_alert"
             android:icon="@android:drawable/ic_dialog_alert"
-            android:title="Alert"/>
+            android:title="Instrucciones"/>
         <item
             android:id="@+id/menu_information"
             android:icon="@android:drawable/ic_dialog_info"
-            android:title="Information"/>
+            android:title="Estadisticas"/>
     </group>
 
     <item android:title="Otras opciones">
         <menu>
-            <item
-                android:id="@+id/menu_opcion_1"
-                android:icon="@android:drawable/ic_dialog_dialer"
-                android:title="Opcion 1"/>
-            <item
-                android:id="@+id/menu_opcion_2"
-                android:icon="@android:drawable/ic_dialog_dialer"
-                android:title="Opcion 2"/>
+            <!--<item-->
+                <!--android:id="@+id/menu_opcion_1"-->
+                <!--android:icon="@android:drawable/ic_dialog_dialer"-->
+                <!--android:title="Opcion 1"/>-->
+            <!--<item-->
+                <!--android:id="@+id/menu_opcion_2"-->
+                <!--android:icon="@android:drawable/ic_dialog_dialer"-->
+                <!--android:title="Opcion 2"/>-->
             <item android:id="@+id/menu_logout"
                 android:title="Log out"
                 android:icon="@android:drawable/presence_offline"

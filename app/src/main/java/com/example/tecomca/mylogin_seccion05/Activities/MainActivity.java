@@ -1,34 +1,44 @@
 package com.example.tecomca.mylogin_seccion05.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.AlertFragment;
-import com.example.tecomca.mylogin_seccion05.Fragments.EmailFragment;
+import com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment.CatergorisFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
+import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
 import com.google.firebase.auth.FirebaseAuth;
 
-import static com.example.tecomca.mylogin_seccion05.R.id.toolbar;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+@SuppressLint("ParcelCreator")
+public class MainActivity extends AppCompatActivity implements ComunViews {
 
     private SharedPreferences prefs;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private List<String> fragments;
+
+    private ComunViews comunViews = this;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,45 +50,49 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navview);
-
+        this.fragments = new ArrayList<>();
         setFragmentByDefault();
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, this.drawerLayout, this.toolbar, 0, 0);
+        this.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         // informacion del drawer si abre o cierra
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View drawerView) {
-                Toast.makeText(MainActivity.this, "OPEN", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-                Toast.makeText(MainActivity.this, "CLOSE", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
+//        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+//            @Override
+//            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+//
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(@NonNull View drawerView) {
+//                Toast.makeText(MainActivity.this, "OPEN", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(@NonNull View drawerView) {
+//                Toast.makeText(MainActivity.this, "CLOSE", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onDrawerStateChanged(int newState) {
+//
+//            }
+//        });
 
 //        con este listener controlamos el navigation drawer
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 boolean fragmentTransaction = false;
                 Fragment fragment = null;
 
                 switch (item.getItemId()){
                     case R.id.menu_mail:
-                        fragment = new EmailFragment();
+                        fragment = CatergorisFragment.newInstance(comunViews);
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_alert:
@@ -89,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new InforFragment();
                         fragmentTransaction = true;
                         break;
-                    case R.id.menu_opcion_1:
-                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 1", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.menu_opcion_2:
-                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 2", Toast.LENGTH_SHORT).show();
-                        break;
+//                    case R.id.menu_opcion_1:
+//                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 1", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.menu_opcion_2:
+//                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 2", Toast.LENGTH_SHORT).show();
+//                        break;
                     case R.id.menu_logout:
                         logOut();
                         FirebaseAuth.getInstance().signOut();
@@ -106,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 if (fragmentTransaction){
-                    changeFragment(fragment, item);
+                    item.setChecked(true);
+                    getSupportActionBar().setTitle(item.getTitle());
+                    changeFragment(fragment);
                     drawerLayout.closeDrawers();
                 }
 
@@ -117,50 +133,72 @@ public class MainActivity extends AppCompatActivity {
 
     // parte de navigation drawer
     private void setToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setFragmentByDefault(){
-        changeFragment(new EmailFragment(), navigationView.getMenu().getItem(0));
-    }
-
-    private void changeFragment(Fragment fragment, MenuItem item){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-        item.setChecked(true);
-        getSupportActionBar().setTitle(item.getTitle());
+        changeFragment(new CatergorisFragment().newInstance(this));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void changeFragment(Fragment fragment){
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment);
+        if (!this.fragments.isEmpty()) {
+            ft.addToBackStack(fragment.getClass().getName());
+        }
+        this.fragments.add(fragment.getClass().getName());
+        ft.commit();
+//
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.content_frame, fragment)
+//                .addToBackStack(fragment.getClass().getName())
+//                .commit();
+//        this.fragments.add(fragment.getClass().getName());
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // abrir el menu lateral
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.menu_logout:
-                logOut();
-                return true;
-            case R.id.menu_forget_logout:
-                removeSharedPreferences();
-                logOut();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (this.fragments.size() > 0) {
+                this.fragments.remove(this.fragments.size() - 1);
+            }
+            super.onBackPressed();
         }
     }
+
+    //    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                // abrir el menu lateral
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//            case R.id.menu_logout:
+//                logOut();
+//                return true;
+//            case R.id.menu_forget_logout:
+//                removeSharedPreferences();
+//                logOut();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     private void logOut() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -171,4 +209,15 @@ public class MainActivity extends AppCompatActivity {
     private void removeSharedPreferences() {
         prefs.edit().clear().apply();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
 }
