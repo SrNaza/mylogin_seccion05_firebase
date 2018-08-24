@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +14,10 @@ import android.widget.Toast;
 import com.example.tecomca.mylogin_seccion05.Model.User;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Sql.DatabaseHelper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
@@ -119,14 +120,62 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v){
         switch (v.getId()){
             case R.id.btnRegister:
-                Toast.makeText(RegisterActivity.this, "Algun dia funcionara XD", Toast.LENGTH_SHORT).show();
-                //postDataToSQL
-                //verifyFromSQLite();
+                //Toast.makeText(RegisterActivity.this, "Algun dia funcionara XD", Toast.LENGTH_SHORT).show();
+                postDataToSQLite();
                 break;
             case R.id.btnBack: // los onclick de los listener como estan arriba
                 Intent intentRegister = new Intent(RegisterActivity.this,LoginActivity.class);
                 startActivity(intentRegister);
                 break;
         }
+    }
+
+    private boolean login(String email, String password) {
+        if  (!isValidEmail(email)){
+            Toast.makeText(this, "Email is not valid, please try again", Toast.LENGTH_LONG).show();
+            return false;
+        } else if (!isValidPassword(password)){
+            Toast.makeText(this, "Password is not valid, 4 characters or more, please try again", Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPassword (String password) {
+        return password.length() >= 4;
+    }
+
+    private void postDataToSQLite(){
+        String email = mEmailField.getText().toString().trim();
+        String password = mPassField.getText().toString().trim();
+        String name = mNameField.getText().toString().trim();
+
+        if (login(email, password)) {
+//            goToMain();
+            if (!databaseHelper.checkUser(email)){
+
+                user.setName(name);
+                user.setEmail(email);
+                user.setPassword(password);
+
+                databaseHelper.addUser(user);
+
+                Toast.makeText(this, "El registro de usuario satisfactorio", Toast.LENGTH_LONG).show();
+                emptyInputEditText();
+            }else{
+                Toast.makeText(this, "El email ya existe", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void emptyInputEditText(){
+        mEmailField.setText(null);
+        mPassField.setText(null);
+        mNameField.setText(null);
     }
 }

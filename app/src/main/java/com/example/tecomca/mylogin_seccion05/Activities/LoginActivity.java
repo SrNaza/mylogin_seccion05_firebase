@@ -155,9 +155,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             saveOnPreferences(email, password);
         }
-
-
     }
+
     private void emptyInputEditText(){
         editTextEmail.setText(null);
         editTextPassword.setText(null);

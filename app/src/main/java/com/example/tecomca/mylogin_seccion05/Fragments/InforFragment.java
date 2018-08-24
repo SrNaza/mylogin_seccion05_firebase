@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.tecomca.mylogin_seccion05.R;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ChildEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -26,11 +27,11 @@ import java.util.ArrayList;
 public class InforFragment extends Fragment {
 
 
-    private DatabaseReference mDatabase;
-    private ListView mUserList;
+    //private DatabaseReference mDatabase;
+    private TextView textView;
 
-    private ArrayList<String> mUsername = new ArrayList<>();
-    private ArrayList<String> mKeys = new ArrayList<>();
+//    private ArrayList<String> mUsername = new ArrayList<>();
+//    private ArrayList<String> mKeys = new ArrayList<>();
 
     public InforFragment() {
         // Required empty public constructor
@@ -40,56 +41,58 @@ public class InforFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infor, container, false);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("List");
-        mUserList = (ListView) view.findViewById(R.id.user_list);
+        //mDatabase = FirebaseDatabase.getInstance().getReference().child("List");
+        textView = (TextView) view.findViewById(R.id.textViewSql);
+        String nameFromIntent = getActivity().getIntent().getStringExtra("EMAIL");
+        textView.setText("Welcome" + nameFromIntent);
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, mUsername);
-
-        mUserList.setAdapter(arrayAdapter);
-
-        // documentacion writr list data
-        mDatabase.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String value = dataSnapshot.getValue(String.class);
-                mUsername.add(value);
-
-                String key = dataSnapshot.getKey();
-                mKeys.add(key);
-
-                arrayAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                String value = dataSnapshot.getValue(String.class);
-                String key = dataSnapshot.getKey();
-
-                int index = mKeys.indexOf(key);
-
-                mUsername.set(index, value);
-
-                arrayAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+    //        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, mUsername);
+//
+//        mUserList.setAdapter(arrayAdapter);
+//
+//        // documentacion writr list data
+//        mDatabase.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                String value = dataSnapshot.getValue(String.class);
+//                mUsername.add(value);
+//
+//                String key = dataSnapshot.getKey();
+//                mKeys.add(key);
+//
+//                arrayAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                String value = dataSnapshot.getValue(String.class);
+//                String key = dataSnapshot.getKey();
+//
+//                int index = mKeys.indexOf(key);
+//
+//                mUsername.set(index, value);
+//
+//                arrayAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         // Inflate the layout for this fragment
         return view;

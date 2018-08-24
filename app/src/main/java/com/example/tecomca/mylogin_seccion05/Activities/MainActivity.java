@@ -24,7 +24,7 @@ import com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment.Catergo
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
 //                        break;
                     case R.id.menu_logout:
                         logOut();
-                        FirebaseAuth.getInstance().signOut();
+//                        FirebaseAuth.getInstance().signOut();
                         return true;
                     case R.id.menu_forget_logout:
                         removeSharedPreferences();
