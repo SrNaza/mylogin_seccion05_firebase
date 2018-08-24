@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -122,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initListeners(){
-        //btnLogin.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
     }
 
@@ -130,6 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v){
         switch (v.getId()){
             case R.id.buttonLogin:
+                Log.e("onClick", "presiono el login");
                 verifyFromSQLite();
                 break;
             case R.id.buttonRegister: // los onclick de los listener como estan arriba
@@ -140,8 +142,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void verifyFromSQLite(){
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
 
         if (login(email, password)) {
 //            goToMain();

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
+import com.example.tecomca.mylogin_seccion05.Fragments.Reconoce1.Reconoce1Fragment;
+import com.example.tecomca.mylogin_seccion05.Model.Category;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
 
@@ -18,12 +20,10 @@ import java.util.List;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
     private final ComunViews comunViews;
-    private List<String> names;
-    private List<Integer> images;
+    private List<Category> categories;
 
-    public CategoriesAdapter(List<String> name, List<Integer> images, ComunViews comunViews) {
-        this.names = name;
-        this.images = images;
+    public CategoriesAdapter(List<Category> categories, ComunViews comunViews) {
+        this.categories = categories;
         this.comunViews = comunViews;
     }
 
@@ -36,19 +36,19 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tv_name.setText(this.names.get(position));
+        holder.tv_name.setText(this.categories.get(position).getName());
 //        holder.iv_logo.setImageResource(R.drawable.bella);
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comunViews.changeFragment(new InforFragment());
+                comunViews.changeFragment(new Reconoce1Fragment());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return this.names.size();
+        return this.categories.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

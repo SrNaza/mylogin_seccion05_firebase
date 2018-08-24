@@ -6,9 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.tecomca.mylogin_seccion05.Model.Category;
 import com.example.tecomca.mylogin_seccion05.Model.User;
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper{
+import java.util.ArrayList;
+import java.util.List;
+
+public class DatabaseHelper extends SQLiteAssetHelper {
 
     private static final int DATABASE_VERSION = 1;
 
@@ -16,12 +21,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Table name
     private static final String TABLE_USER = "user";
+    private static final String TABLE_CATEGORIES = "categories";
 
     //Table users columns
-    private static final String COLUM_USER_ID = "user_id";
-    private static final String COLUM_USER_NAME = "user_name";
-    private static final String COLUM_USER_EMAIL = "user_email";
-    private static final String COLUM_USER_PASSWORD = "user_password";
+    // User
+    private static final String COLUM_USER_ID = "id_user";
+    private static final String COLUM_USER_NAME = "name";
+    private static final String COLUM_USER_EMAIL = "email";
+    private static final String COLUM_USER_PASSWORD = "password";
+
+    // Categories
+    private static final String COLUM_CATEGORY_ID = "id_category";
+    private static final String COLUM_CATEGORY_NAME = "name";
+    private static final String COLUM_CATEGORY_IMAGE = "image";
 
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER
             + "("
@@ -33,22 +45,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
 
-    public DatabaseHelper(Context context){
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db){
-        db.execSQL(CREATE_USER_TABLE);
-    }
+//    @Override
+//    public void onCreate(SQLiteDatabase db){
+//        db.execSQL(CREATE_USER_TABLE);
+//    }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DROP_USER_TABLE);
         onCreate(db);
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUM_USER_NAME, user.getName());
@@ -60,13 +72,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public boolean checkUser(String email){
+    public boolean checkUser(String email) {
+
+
         String[] columns = {
                 COLUM_USER_ID
         };
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = COLUM_USER_EMAIL + " = ?";
-        String[] selectionArgs = { email };
+        String[] selectionArgs = {email};
 
         Cursor cursor = db.query(TABLE_USER,
                 columns,
@@ -78,19 +92,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         int cursorCount = cursor.getCount();
         cursor.close();
         db.close();
-
-        if (cursorCount > 0){
+        if (cursorCount > 0) {
             return true;
         }
         return false;
     }
-    public boolean checkUser(String email, String password){
+
+    public boolean checkUser(String email, String password) {
         String[] columns = {
                 COLUM_USER_ID
         };
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = COLUM_USER_EMAIL + " = ?" + " AND " + COLUM_USER_PASSWORD + " = ?";
-        String[] selectionArgs = { email, password };
+        String[] selectionArgs = {email, password};
 
         Cursor cursor = db.query(TABLE_USER,
                 columns,
@@ -103,10 +117,46 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         cursor.close();
         db.close();
 
-        if (cursorCount > 0){
+        if (cursorCount > 0) {
             return true;
         }
         return false;
     }
+
+    public List<Category> checkImageCategories() {
+        String[] columns = {
+                COLUM_CATEGORY_ID
+        };
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = COLUM_CATEGORY_IMAGE + " = ?" + " AND " + COLUM_CATEGORY_NAME + " = ?";
+
+        Cursor cursor = db.query(TABLE_CATEGORIES,
+                columns,
+                selection,
+                null,
+                null,
+                null,
+                null);
+        List<Category> categories = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Category jefe = new Category();
+                jefe.setName(cursor.getString(cursor.getColumnIndex("name")));
+                jefe.setEmail(cursor.getBlob(cursor.getColumnIndex("imagen")));
+                categories.add(jefe);
+            } while (cursor.moveToNext());
+        }
+
+
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+        return categories;
+//        if (cursorCount > 0) {
+//            return true;
+//        }
+//        return false;
+    }
+
 
 }

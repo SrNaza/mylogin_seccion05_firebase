@@ -16,15 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.AlertFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment.CatergorisFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
-//import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
 
     private ComunViews comunViews = this;
     Toolbar toolbar;
+    private String nameFromIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
         setToolbar();
 
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-
+         nameFromIntent = getIntent().getStringExtra("EMAIL");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navview);
         this.fragments = new ArrayList<>();
@@ -103,15 +101,8 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
                         fragment = new InforFragment();
                         fragmentTransaction = true;
                         break;
-//                    case R.id.menu_opcion_1:
-//                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 1", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.menu_opcion_2:
-//                        Toast.makeText(MainActivity.this, "Has clickeado en la opcion 2", Toast.LENGTH_SHORT).show();
-//                        break;
                     case R.id.menu_logout:
                         logOut();
-//                        FirebaseAuth.getInstance().signOut();
                         return true;
                     case R.id.menu_forget_logout:
                         removeSharedPreferences();

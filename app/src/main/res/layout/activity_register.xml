@@ -40,7 +40,7 @@
         android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Name..."
-        android:inputType="textPassword" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/btnRegister"
