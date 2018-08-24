@@ -3,7 +3,6 @@ package com.example.tecomca.mylogin_seccion05.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,13 +14,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.tecomca.mylogin_seccion05.R;
+import com.example.tecomca.mylogin_seccion05.Sql.DatabaseHelper;
 import com.example.tecomca.mylogin_seccion05.Utils.Util;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SharedPreferences prefs;
 
@@ -31,37 +27,42 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnRegister;
 
+    private DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         bindUI();
 
 
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         setCredentialsIfExist();
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+//        btnRegister.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//            }
+//        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
+                //verifyFromSQLite();
                 if (login(email, password)) {
                     goToMain();
                     saveOnPreferences(email, password);
                 }
             }
         });
+
+        initObjects();
+        initListeners();
     }
     private void bindUI() {
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -114,5 +115,51 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    private void initObjects(){
+        databaseHelper = new DatabaseHelper(LoginActivity.this);
+    }
+
+    private void initListeners(){
+        //btnLogin.setOnClickListener(this);
+        btnRegister.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.buttonLogin:
+                verifyFromSQLite();
+                break;
+            case R.id.buttonRegister: // los onclick de los listener como estan arriba
+                Intent intentRegister = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intentRegister);
+                break;
+        }
+    }
+
+    private void verifyFromSQLite(){
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (login(email, password)) {
+//            goToMain();
+            if (databaseHelper.checkUser(email,password)){
+                Intent accountIntent = new Intent (LoginActivity.this, MainActivity.class);
+                accountIntent.putExtra("EMAIL", email);
+                emptyInputEditText();
+                startActivity(accountIntent);
+            }else{
+                Toast.makeText(this, "Wrong Email or Password", Toast.LENGTH_LONG).show();
+            }
+            saveOnPreferences(email, password);
+        }
+
+
+    }
+    private void emptyInputEditText(){
+        editTextEmail.setText(null);
+        editTextPassword.setText(null);
     }
 }
