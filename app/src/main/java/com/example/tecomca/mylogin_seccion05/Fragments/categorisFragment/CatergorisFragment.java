@@ -64,7 +64,7 @@ public class CatergorisFragment extends Fragment {
         nombres.add("Área escolar");
         nombres.add("Área Habitos");
         nombres.add("Área emocional solcial");
-       //adapter = new CategoriesAdapter(nombres, images, this.comunViews);
+        adapter = new CategoriesAdapter(nombres,this.comunViews);
         listCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
         listCategories.setAdapter(adapter);
     }

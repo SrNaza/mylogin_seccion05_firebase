@@ -15,6 +15,7 @@ import com.example.tecomca.mylogin_seccion05.Model.Category;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
@@ -22,8 +23,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     private final ComunViews comunViews;
     private List<Category> categories;
 
-    public CategoriesAdapter(List<Category> categories, ComunViews comunViews) {
-        this.categories = categories;
+    private List<String> nombres;
+    private List<String> images ;
+
+
+//    public CategoriesAdapter(List<Category> categories, ComunViews comunViews) {
+//        this.categories = categories;
+//        this.comunViews = comunViews;
+//    }
+
+    public CategoriesAdapter(List<String> nombres,ComunViews comunViews) {
+        this.nombres = nombres;
         this.comunViews = comunViews;
     }
 
@@ -36,7 +46,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tv_name.setText(this.categories.get(position).getName());
+//        holder.tv_name.setText(this.categories.get(position).getName());
+        holder.tv_name.setText(nombres.get(position));
+
 //        holder.iv_logo.setImageResource(R.drawable.bella);
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +60,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return this.categories.size();
+
+        if (nombres == null)
+            return 0;
+        else
+        return this.nombres.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
