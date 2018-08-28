@@ -3,10 +3,10 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/bella" />
+        android:src="@drawable/doctor" />
 
     <TextView
         android:layout_width="wrap_content"

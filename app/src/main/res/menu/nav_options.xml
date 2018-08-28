@@ -9,12 +9,16 @@
             android:title="Categorias"/>
         <item
             android:id="@+id/menu_alert"
-            android:icon="@android:drawable/ic_dialog_alert"
+            android:icon="@android:drawable/ic_dialog_info"
             android:title="Instrucciones"/>
         <item
             android:id="@+id/menu_information"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@android:drawable/ic_menu_sort_alphabetically"
             android:title="Estadisticas"/>
+        <item
+            android:id="@+id/menu_registrar"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="Registrar Usuario"/>
     </group>
 
     <item android:title="Otras opciones">

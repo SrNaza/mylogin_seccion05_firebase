@@ -1,5 +1,6 @@
 package com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment;
 
+import android.icu.util.ULocale;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CatergorisFragment extends Fragment {
 
@@ -26,6 +28,7 @@ public class CatergorisFragment extends Fragment {
 
     private List<String> nombres;
     private List<Integer> images;
+    private List<ULocale.Category> categorias;
 
     private int asdf;
     public CatergorisFragment() {
@@ -58,6 +61,7 @@ public class CatergorisFragment extends Fragment {
         listCategories = view.findViewById(R.id.listCategories);
         nombres = new ArrayList<>();
         images = new ArrayList<>();
+        categorias = new ArrayList<>();
         nombres.add("Área fisico y personal");
         nombres.add("Área psicomotriz");
         nombres.add("Área intelectual");

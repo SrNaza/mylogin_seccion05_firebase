@@ -44,7 +44,7 @@ public class InforFragment extends Fragment {
         //mDatabase = FirebaseDatabase.getInstance().getReference().child("List");
         textView = (TextView) view.findViewById(R.id.textViewSql);
         String nameFromIntent = getActivity().getIntent().getStringExtra("EMAIL");
-        textView.setText("Welcome" + nameFromIntent);
+        textView.setText("Welcome " + nameFromIntent);
 
     //        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, mUsername);
 //

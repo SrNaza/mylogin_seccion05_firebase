@@ -142,7 +142,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
             do {
                 Category jefe = new Category();
                 jefe.setName(cursor.getString(cursor.getColumnIndex("name")));
-                jefe.setEmail(cursor.getBlob(cursor.getColumnIndex("imagen")));
+                jefe.setImagen(cursor.getBlob(cursor.getColumnIndex("imagen")));
                 categories.add(jefe);
             } while (cursor.moveToNext());
         }

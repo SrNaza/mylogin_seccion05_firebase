@@ -22,12 +22,12 @@ public class Category {
         this.name = name;
     }
 
-    public byte[] getEmail() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setEmail(byte[] email) {
-        this.imagen = email;
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
 }

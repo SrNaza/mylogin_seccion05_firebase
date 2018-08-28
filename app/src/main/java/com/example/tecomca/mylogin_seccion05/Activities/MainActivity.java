@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.AlertFragment;
+import com.example.tecomca.mylogin_seccion05.Fragments.RegistrarFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment.CatergorisFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
@@ -99,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
                         break;
                     case R.id.menu_information:
                         fragment = new InforFragment();
+                        fragmentTransaction = true;
+                        break;
+                    case R.id.menu_registrar:
+                        fragment = new RegistrarFragment();
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_logout:
