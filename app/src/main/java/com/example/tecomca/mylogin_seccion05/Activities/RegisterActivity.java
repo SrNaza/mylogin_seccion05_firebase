@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 postDataToSQLite();
                 break;
             case R.id.btnBack: // los onclick de los listener como estan arriba
-                Intent intentRegister = new Intent(RegisterActivity.this,LoginActivity.class);
+                Intent intentRegister = new Intent(RegisterActivity.this,MainActivity.class);
                 startActivity(intentRegister);
                 break;
         }

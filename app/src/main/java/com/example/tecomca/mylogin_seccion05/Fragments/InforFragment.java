@@ -1,31 +1,30 @@
 package com.example.tecomca.mylogin_seccion05.Fragments;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tecomca.mylogin_seccion05.R;
+import com.example.tecomca.mylogin_seccion05.Utils.Util;
 //import com.google.firebase.database.ChildEventListener;
 //import com.google.firebase.database.DataSnapshot;
 //import com.google.firebase.database.DatabaseError;
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class InforFragment extends Fragment {
 
+    private SharedPreferences prefs;
 
     //private DatabaseReference mDatabase;
     private TextView textView;
@@ -42,11 +41,11 @@ public class InforFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infor, container, false);
-
+        prefs = getContext().getSharedPreferences("Preferences", MODE_PRIVATE);
         //mDatabase = FirebaseDatabase.getInstance().getReference().child("List");
         textView = (TextView) view.findViewById(R.id.textViewSql);
-        String nameFromIntent = getActivity().getIntent().getStringExtra("EMAIL");
-        textView.setText("Welcome " + nameFromIntent);
+//        String nameFromIntent = getActivity().getIntent().getStringExtra("EMAIL");
+        textView.setText("Welcome ".concat(Util.getSessionName(prefs)));
 
     //        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, mUsername);
 //

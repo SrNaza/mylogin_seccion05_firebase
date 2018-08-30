@@ -1,12 +1,11 @@
 package com.example.tecomca.mylogin_seccion05.Model;
 
-public class Category {
-
+public class Juegos {
     private int id;
     private String name;
-    private byte[] imagen;
+    private int imagen;
 
-    public Category(int id, String name, byte[] imagen) {
+    public Juegos(int id, String name, int imagen) {
         this.id = id;
         this.name = name;
         this.imagen = imagen;
@@ -28,11 +27,11 @@ public class Category {
         this.name = name;
     }
 
-    public byte[] getImagen() {
+    public int getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(int imagen) {
         this.imagen = imagen;
     }
 

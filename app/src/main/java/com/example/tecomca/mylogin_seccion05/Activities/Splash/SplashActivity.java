@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.tecomca.mylogin_seccion05.Activities.LoginActivity;
 import com.example.tecomca.mylogin_seccion05.Activities.MainActivity;
@@ -19,13 +20,16 @@ public class SplashActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        prefs = getSharedPreferences("Preferences", getBaseContext().MODE_PRIVATE);
+        prefs = getSharedPreferences("Preferences", MODE_PRIVATE);
 
         Intent intentLogin = new Intent (this, LoginActivity.class);
         Intent intentMain = new Intent (this, MainActivity.class);
 
-        if (!TextUtils.isEmpty(Util.getUserMailPrefs(prefs)) &&
-                !TextUtils.isEmpty(Util.getUserPassPrefs(prefs))) {
+        Log.e("login", "user: " + Util.getSessionEmail(prefs));
+        Log.e("login", "pass: " + Util.getSessionPass(prefs));
+
+        if (TextUtils.isEmpty(Util.getSessionEmail(prefs)) &&
+                TextUtils.isEmpty(Util.getSessionPass(prefs))) {
             startActivity(intentLogin);
         } else {
             startActivity(intentMain);

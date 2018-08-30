@@ -10,12 +10,13 @@
         android:src="@drawable/doctor" />
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:text="Nazareth villalba"
+        android:text="Invitado"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorAccent"
         android:textStyle="bold" />

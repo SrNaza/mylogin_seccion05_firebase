@@ -16,13 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.AlertFragment;
-import com.example.tecomca.mylogin_seccion05.Fragments.RegistrarFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.categorisFragment.CatergorisFragment;
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
+import com.example.tecomca.mylogin_seccion05.Utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +46,8 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setToolbar();
-
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-         nameFromIntent = getIntent().getStringExtra("EMAIL");
+        nameFromIntent = getIntent().getStringExtra("EMAIL");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navview);
         this.fragments = new ArrayList<>();
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
         this.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        chargeNavView();
         // informacion del drawer si abre o cierra
 //        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
 //            @Override
@@ -89,33 +91,41 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
                 boolean fragmentTransaction = false;
                 Fragment fragment = null;
 
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.menu_mail:
+                        fragments.clear();
                         fragment = CatergorisFragment.newInstance(comunViews);
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_alert:
+                        fragments.clear();
                         fragment = new AlertFragment();
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_information:
+                        fragments.clear();
                         fragment = new InforFragment();
                         fragmentTransaction = true;
                         break;
                     case R.id.menu_registrar:
-                        fragment = new RegistrarFragment();
-                        fragmentTransaction = true;
+                        fragments.clear();
+                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                        startActivity(intent);
+//                        fragment = new RegistrarFragment();
+//                        fragmentTransaction = true;
                         break;
                     case R.id.menu_logout:
+                        fragments.clear();
                         logOut();
-                        return true;
+                        break;
                     case R.id.menu_forget_logout:
+                        fragments.clear();
                         removeSharedPreferences();
                         logOut();
-                        return true;
+                        break;
 
                 }
-                if (fragmentTransaction){
+                if (fragmentTransaction) {
                     item.setChecked(true);
                     getSupportActionBar().setTitle(item.getTitle());
                     changeFragment(fragment);
@@ -127,20 +137,36 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
         });
     }
 
+    public void chargeNavView() {
+        View view = this.navigationView.getHeaderView(0);
+        TextView tv_name = view.findViewById(R.id.tv_name);
+        tv_name.setText(Util.getSessionName(this.prefs));
+        switch (Util.getSessionType(this.prefs)) {
+            case 1: {
+                this.navigationView.inflateMenu(R.menu.nav_options);
+                break;
+            }
+            case 2: {
+                this.navigationView.inflateMenu(R.menu.menu_guest);
+                break;
+            }
+        }
+    }
+
     // parte de navigation drawer
-    private void setToolbar(){
+    private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setFragmentByDefault(){
-        changeFragment(new CatergorisFragment().newInstance(this));
+    private void setFragmentByDefault() {
+        changeFragment(CatergorisFragment.newInstance(comunViews));
     }
 
     @Override
-    public void changeFragment(Fragment fragment){
+    public void changeFragment(Fragment fragment) {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment);
@@ -160,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
 
     @Override
     public void onBackPressed() {
-        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             if (this.fragments.size() > 0) {
@@ -200,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements ComunViews {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+
     }
 
     private void removeSharedPreferences() {

@@ -2,18 +2,21 @@ package com.example.tecomca.mylogin_seccion05.Sql;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.tecomca.mylogin_seccion05.Model.Category;
 import com.example.tecomca.mylogin_seccion05.Model.User;
+import com.example.tecomca.mylogin_seccion05.Utils.Util;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteAssetHelper {
+
+    private SharedPreferences prefs;
 
     private static final int DATABASE_VERSION = 1;
 
@@ -29,6 +32,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     private static final String COLUM_USER_NAME = "name";
     private static final String COLUM_USER_EMAIL = "email";
     private static final String COLUM_USER_PASSWORD = "password";
+    private static final String COLUM_USER_TYPE = "type";
 
     // Categories
     private static final String COLUM_CATEGORY_ID = "id_category";
@@ -47,6 +51,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        prefs = context.getSharedPreferences("Preferences", Context.MODE_PRIVATE);
     }
 
 //    @Override
@@ -73,15 +78,12 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     }
 
     public boolean checkUser(String email) {
-
-
         String[] columns = {
                 COLUM_USER_ID
         };
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = COLUM_USER_EMAIL + " = ?";
         String[] selectionArgs = {email};
-
         Cursor cursor = db.query(TABLE_USER,
                 columns,
                 selection,
@@ -100,12 +102,13 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 
     public boolean checkUser(String email, String password) {
         String[] columns = {
-                COLUM_USER_ID
+                COLUM_USER_ID,
+                COLUM_USER_NAME,
+                COLUM_USER_TYPE
         };
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = COLUM_USER_EMAIL + " = ?" + " AND " + COLUM_USER_PASSWORD + " = ?";
         String[] selectionArgs = {email, password};
-
         Cursor cursor = db.query(TABLE_USER,
                 columns,
                 selection,
@@ -114,13 +117,46 @@ public class DatabaseHelper extends SQLiteAssetHelper {
                 null,
                 null);
         int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
-
+        cursor.moveToFirst();
         if (cursorCount > 0) {
+            Util.setSessionName(prefs, cursor.getString(cursor.getColumnIndex("name")));
+            Util.setSessionType(prefs, cursor.getInt(cursor.getColumnIndex("type")));
+            cursor.close();
+            db.close();
             return true;
         }
+        cursor.close();
+        db.close();
         return false;
+    }
+
+    public List<Category> getCategories() {
+        List<Category> categories = new ArrayList<>();
+        String[] columns = {
+                COLUM_CATEGORY_ID,
+                COLUM_CATEGORY_NAME,
+                COLUM_CATEGORY_IMAGE
+        };
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_CATEGORIES,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            do {
+                Category jefe = new Category(
+                        cursor.getInt(cursor.getColumnIndex(COLUM_CATEGORY_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUM_CATEGORY_NAME)),
+                        cursor.getBlob(cursor.getColumnIndex(COLUM_CATEGORY_IMAGE)));
+                categories.add(jefe);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return categories;
     }
 
 //    public List<Category> checkImageCategories() {

@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextPassword;
     private Switch switchRemember;
     private Button btnLogin;
-    private Button btnRegister;
+    private Button btnInvitado;
 
     private DatabaseHelper databaseHelper;
 
@@ -36,9 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         bindUI();
 
-
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        setCredentialsIfExist();
+//        setCredentialsIfExist();
 
 //        btnRegister.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -49,33 +48,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            }
 //        });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
-                //verifyFromSQLite();
-                if (login(email, password)) {
-                    goToMain();
-                    saveOnPreferences(email, password);
-                }
-            }
-        });
-
+//        btnLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String email = editTextEmail.getText().toString();
+//                String password = editTextPassword.getText().toString();
+//                //verifyFromSQLite();
+//                if (login(email, password)) {
+//                    goToMain();
+//                    saveOnPreferences(email, password);
+//                }
+//            }
+//        });
         initObjects();
         initListeners();
     }
+
     private void bindUI() {
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         switchRemember = (Switch) findViewById(R.id.switchRemember);
         btnLogin = (Button) findViewById(R.id.buttonLogin);
-        btnRegister = (Button) findViewById(R.id.buttonRegister);
+        btnInvitado = (Button) findViewById(R.id.buttonInvitado);
     }
 
     private void setCredentialsIfExist() {
-        String email = Util.getUserMailPrefs(prefs);
-        String password = Util.getUserPassPrefs(prefs);
+        String email = Util.getSessionEmail(prefs);
+        String password = Util.getSessionPass(prefs);
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             editTextEmail.setText(email);
             editTextPassword.setText(password);
@@ -97,10 +96,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void saveOnPreferences(String email, String password) {
         if (switchRemember.isChecked()) {
             SharedPreferences.Editor editor = prefs.edit();
+            editor.apply(); // asincrono
             editor.putString("email", email);
             editor.putString("pass", password);
-//            editor.commit(); // sincrono
-            editor.apply(); // asincrono
+            editor.commit(); // sincrono
         }
     }
 
@@ -124,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initListeners(){
         btnLogin.setOnClickListener(this);
-        btnRegister.setOnClickListener(this);
+        btnInvitado.setOnClickListener(this);
     }
 
     @Override
@@ -134,9 +133,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.e("onClick", "presiono el login");
                 verifyFromSQLite();
                 break;
-            case R.id.buttonRegister: // los onclick de los listener como estan arriba
-                Intent intentRegister = new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intentRegister);
+            case R.id.buttonInvitado: // los onclick de los listener como estan arriba
+                Util.setSessionName(this.prefs, "Invitado");
+//                Util.setSessionEmail(this.prefs, "Invitado");
+                Util.setSessionType(this.prefs, 2);
+                Intent intentInvitado = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intentInvitado);
                 break;
         }
     }
@@ -148,14 +150,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (login(email, password)) {
 //            goToMain();
             if (databaseHelper.checkUser(email,password)){
+                if (this.switchRemember.isChecked()) {
+                    Util.setSessionEmail(prefs, this.editTextEmail.getText().toString());
+                    Util.setSessionPass(prefs, this.editTextPassword.getText().toString());
+                }
                 Intent accountIntent = new Intent (LoginActivity.this, MainActivity.class);
                 accountIntent.putExtra("EMAIL", email);
-                emptyInputEditText();
                 startActivity(accountIntent);
+//                emptyInputEditText();
             }else{
                 Toast.makeText(this, "Wrong Email or Password", Toast.LENGTH_LONG).show();
             }
-            saveOnPreferences(email, password);
+//            saveOnPreferences(email, password);
         }
     }
 
