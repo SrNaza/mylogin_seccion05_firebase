@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tecomca.mylogin_seccion05.Fragments.InforFragment;
+import com.example.tecomca.mylogin_seccion05.Fragments.Reconoce1.Reconoce1Fragment;
 import com.example.tecomca.mylogin_seccion05.Model.Category;
 import com.example.tecomca.mylogin_seccion05.R;
 import com.example.tecomca.mylogin_seccion05.Utils.ComunViews;
@@ -31,6 +32,7 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
 
     private List<String> nombres;
     private List<Integer> images;
+    private List<String> listNombres;
     private List<Category> categorias;
     private List<String> listFotos;
 
@@ -45,10 +47,21 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
         listFotos = new ArrayList<>();
         listFotos.add("https://img.elcomercio.pe/files/article_content_ec_fotos/uploads/2018/02/22/5a8f26856f0b8.jpeg");
         listFotos.add("http://mouse.latercera.com/wp-content/uploads/2018/03/goku.jpg");
-        listFotos.add("https://img.elcomercio.pe/files/article_content_ec_fotos/uploads/2018/02/22/5a8f26856f0b8.jpeg");
-        listFotos.add("http://mouse.latercera.com/wp-content/uploads/2018/03/goku.jpg");
-        listFotos.add("https://img.elcomercio.pe/files/article_content_ec_fotos/uploads/2018/02/22/5a8f26856f0b8.jpeg");
-        listFotos.add("http://mouse.latercera.com/wp-content/uploads/2018/03/goku.jpg");
+        listFotos.add("https://www.elastic.co/assets/bltada7771f270d08f6/enhanced-buzz-1492-1379411828-15.jpg");
+        listFotos.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBIpaUc5rQhLMs6aKu27sNu7xgaOyMm_8YgH2tktB181U3kRYi");
+        listFotos.add("https://cdn.pixabay.com/photo/2018/06/09/22/56/peacock-3465442__340.jpg");
+        listFotos.add("https://www.gettyimages.in/gi-resources/images/Homepage/Hero/US/SEP2016/prestige-476863311.jpg");
+    }
+
+    public void initListNombres(){
+        listNombres = new ArrayList<>();
+        listNombres.add("Área fisico y personal");
+        listNombres.add("Área psicomotriz");
+        listNombres.add("Área intelectual");
+        listNombres.add("Área escolar");
+        listNombres.add("Área Habitos");
+        listNombres.add("Área emocional solcial");
+
     }
 
 
@@ -74,6 +87,7 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
         // /initAll(view);
         RecyclerViewUpdate();
         initListImagenes();
+        initListNombres();
         getDataFake();
         return view;
     }
@@ -81,7 +95,7 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
     public void getDataFake(){
         List<Category> list= new ArrayList<>();
         for (int i=0;i<6;i++){
-            list.add(new Category(i,"Nombre "+i,listFotos.get(i)));
+            list.add(new Category(i,listNombres.get(i),listFotos.get(i)));
         }
         categorias=list;
         RecyclerViewUpdate();
@@ -120,6 +134,6 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
     @Override
     public void onClickSelectedItem(Category category) {
         Log.i(TAG,"--->clickeado"+ category.getName());
-        comunViews.changeFragment(new InforFragment());
+        comunViews.changeFragment(new Reconoce1Fragment());
     }
 }

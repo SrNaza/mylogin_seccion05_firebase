@@ -6,6 +6,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/doctor" />
 
     <TextView
@@ -16,7 +17,7 @@
         android:layout_marginLeft="10dp"
         android:text="Nazareth villalba"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFF"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold" />
 
 </FrameLayout>

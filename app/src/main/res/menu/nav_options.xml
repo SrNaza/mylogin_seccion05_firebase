@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/menu_mail"
-            android:icon="@android:drawable/ic_dialog_email"
+            android:icon="@android:drawable/ic_search_category_default"
             android:title="Categorias"/>
         <item
             android:id="@+id/menu_alert"
@@ -18,7 +18,7 @@
         <item
             android:id="@+id/menu_registrar"
             android:icon="@android:drawable/ic_menu_add"
-            android:title="Registrar Usuario"/>
+            android:title="Registrar Paciente"/>
     </group>
 
     <item android:title="Otras opciones">
@@ -32,11 +32,11 @@
                 <!--android:icon="@android:drawable/ic_dialog_dialer"-->
                 <!--android:title="Opcion 2"/>-->
             <item android:id="@+id/menu_logout"
-                android:title="Log out"
-                android:icon="@android:drawable/presence_offline"
+                android:title="Cerrar Sesion"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
                 app:showAsAction="never" />
             <item android:id="@+id/menu_forget_logout"
-                android:title="Forget and Log out"
+                android:title="Olvidar datos y Cerrar Sesion"
                 android:icon="@android:drawable/presence_offline"
                 app:showAsAction="never" />
         </menu>
