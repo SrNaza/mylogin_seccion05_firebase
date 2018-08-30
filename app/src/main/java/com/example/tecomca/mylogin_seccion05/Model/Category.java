@@ -4,7 +4,13 @@ public class Category {
 
     private int id;
     private String name;
-    private byte[] imagen;
+    private String imagen;
+
+    public Category(int id, String name, String imagen) {
+        this.id = id;
+        this.name = name;
+        this.imagen = imagen;
+    }
 
     public int getId() {
         return id;
@@ -22,11 +28,11 @@ public class Category {
         this.name = name;
     }
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 

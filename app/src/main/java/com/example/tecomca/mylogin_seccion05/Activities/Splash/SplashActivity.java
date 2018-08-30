@@ -26,9 +26,9 @@ public class SplashActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(Util.getUserMailPrefs(prefs)) &&
                 !TextUtils.isEmpty(Util.getUserPassPrefs(prefs))) {
-            startActivity(intentMain);
-        } else {
             startActivity(intentLogin);
+        } else {
+            startActivity(intentMain);
         }
         finish(); // matamos el activity
     }

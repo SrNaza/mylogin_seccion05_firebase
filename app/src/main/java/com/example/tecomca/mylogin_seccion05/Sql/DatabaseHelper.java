@@ -123,40 +123,40 @@ public class DatabaseHelper extends SQLiteAssetHelper {
         return false;
     }
 
-    public List<Category> checkImageCategories() {
-        String[] columns = {
-                COLUM_CATEGORY_ID
-        };
-        SQLiteDatabase db = this.getWritableDatabase();
-        String selection = COLUM_CATEGORY_IMAGE + " = ?" + " AND " + COLUM_CATEGORY_NAME + " = ?";
-
-        Cursor cursor = db.query(TABLE_CATEGORIES,
-                columns,
-                selection,
-                null,
-                null,
-                null,
-                null);
-        List<Category> categories = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                Category jefe = new Category();
-                jefe.setName(cursor.getString(cursor.getColumnIndex("name")));
-                jefe.setImagen(cursor.getBlob(cursor.getColumnIndex("imagen")));
-                categories.add(jefe);
-            } while (cursor.moveToNext());
-        }
-
-
-        int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
-        return categories;
-//        if (cursorCount > 0) {
-//            return true;
+//    public List<Category> checkImageCategories() {
+//        String[] columns = {
+//                COLUM_CATEGORY_ID
+//        };
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String selection = COLUM_CATEGORY_IMAGE + " = ?" + " AND " + COLUM_CATEGORY_NAME + " = ?";
+//
+//        Cursor cursor = db.query(TABLE_CATEGORIES,
+//                columns,
+//                selection,
+//                null,
+//                null,
+//                null,
+//                null);
+//        List<Category> categories = new ArrayList<>();
+//        if (cursor.moveToFirst()) {
+//            do {
+//                Category jefe = new Category();
+//                jefe.setName(cursor.getString(cursor.getColumnIndex("name")));
+//                jefe.setImagen(cursor.getBlob(cursor.getColumnIndex("imagen")));
+//                categories.add(jefe);
+//            } while (cursor.moveToNext());
 //        }
-//        return false;
-    }
+//
+//
+//        int cursorCount = cursor.getCount();
+//        cursor.close();
+//        db.close();
+//        return categories;
+////        if (cursorCount > 0) {
+////            return true;
+////        }
+////        return false;
+//    }
 
 
 }
