@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.tecomca.mylogin_seccion05.Model.Games;
 import com.example.tecomca.mylogin_seccion05.Model.Juegos;
 import com.example.tecomca.mylogin_seccion05.R;
 
@@ -22,10 +23,10 @@ import java.util.List;
 public class ListaJuegosAdapter extends RecyclerView.Adapter<ListaJuegosAdapter.ViewHolder> {
 
     private Context context;
-    private List<Juegos> listJuegos;
+    private List<Games> listJuegos;
     private ListaJuegosFragment onItemClickListener;
 
-    public ListaJuegosAdapter(List<Juegos> listCategory,Context context) {
+    public ListaJuegosAdapter(List<Games> listCategory, Context context) {
         this.listJuegos = listCategory;
         this.context = context;
     }
@@ -47,18 +48,15 @@ public class ListaJuegosAdapter extends RecyclerView.Adapter<ListaJuegosAdapter.
                 onItemClickListener.onClickSelectedItem(listJuegos.get(position));
             }
         });
-        Log.i("TAG","--->"+listJuegos.get(position).getImagen());
+        Log.i("TAG","--->"+listJuegos.get(position).getImage());
         Glide.with(context)
-                .load(listJuegos.get(position).getImagen())
+                .load(listJuegos.get(position).getImage())
                 .apply(new RequestOptions().placeholder(R.drawable.doctor).error(R.drawable.kids))
                 .into(holder.iv_logo);
     }
 
     @Override
     public int getItemCount() {
-        if (listJuegos == null)
-            return 0;
-        else
             return listJuegos.size();
     }
 
@@ -66,7 +64,7 @@ public class ListaJuegosAdapter extends RecyclerView.Adapter<ListaJuegosAdapter.
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void updateAll(List<Juegos> update) {
+    public void updateAll(List<Games> update) {
         //Log.i(TAG,"--->updateAll "+ update.size());
         listJuegos.clear();
         listJuegos.addAll(listJuegos.size(), update);
@@ -89,6 +87,7 @@ public class ListaJuegosAdapter extends RecyclerView.Adapter<ListaJuegosAdapter.
     }
 
     public interface OnItemClickListener{
-        void onClickSelectedItem(Juegos juegos);
+        void onClickSelectedItem(Games juegos);
     }
+
 }

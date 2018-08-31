@@ -108,11 +108,11 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
     public void RecyclerViewUpdate() {
         recyclerCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
 //        if (adapter == null) {
-            //Log.i(TAG, "--->listadoAdapter null");
-            categorias = new ArrayList<>();
-//            adapter = new CategoriesAdapter(categorias, getContext());
-            adapter = new CategoriesAdapter(this.databaseHelper.getCategories(), getContext());
-            adapter.setOnItemClickListener(this);
+        //Log.i(TAG, "--->listadoAdapter null");
+        categorias = new ArrayList<>();
+//        adapter = new CategoriesAdapter(categorias, getContext());
+        adapter = new CategoriesAdapter(this.databaseHelper.getCategories(), getContext());
+        adapter.setOnItemClickListener(this);
 //        } else {
 //            //Log.i(TAG, "--->listadoAdapter update");
 //            adapter.updateAll(categorias);
@@ -131,15 +131,15 @@ public class CatergorisFragment extends Fragment implements CategoriesAdapter.On
 //        nombres.add("Área escolar");
 //        nombres.add("Área Habitos");
 //        nombres.add("Área emocional solcial");
-////        adapter = new CategoriesAdapter(nombres,this.comunViews);
-////        listCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
-////        listCategories.setAdapter(adapter);
+//        adapter = new CategoriesAdapter(nombres,this.comunViews);
+//        listCategories.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//        listCategories.setAdapter(adapter);
 //    }
 
     @Override
     public void onClickSelectedItem(Category category) {
-        Log.i(TAG, "--->clickeado" + category.getName());
-        comunViews.changeFragment(ListaJuegosFragment.newInstance(comunViews));
+        Log.i(TAG, "--->Category name: " + category.getName());
+        comunViews.changeFragment(ListaJuegosFragment.newInstance(comunViews, category.getId()));
     }
 
 }

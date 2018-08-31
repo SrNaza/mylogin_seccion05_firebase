@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.tecomca.mylogin_seccion05.Model.Category;
+import com.example.tecomca.mylogin_seccion05.Model.Characteristics;
+import com.example.tecomca.mylogin_seccion05.Model.Games;
 import com.example.tecomca.mylogin_seccion05.Model.User;
 import com.example.tecomca.mylogin_seccion05.Utils.Util;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
@@ -25,6 +27,8 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     // Table name
     private static final String TABLE_USER = "user";
     private static final String TABLE_CATEGORIES = "categories";
+    private static final String TABLE_GAME = "games";
+    private static final String TABLE_CHARACTERISTICS = "characteristics";
 
     //Table users columns
     // User
@@ -39,13 +43,19 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     private static final String COLUM_CATEGORY_NAME = "name";
     private static final String COLUM_CATEGORY_IMAGE = "image";
 
-    private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER
-            + "("
-            + COLUM_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUM_USER_NAME + " TEXT,"
-            + COLUM_USER_EMAIL + " TEXT,"
-            + COLUM_USER_PASSWORD + " TEXT"
-            + ")";
+    // Games
+    private static final String COLUM_GAME_ID = "id_game";
+    private static final String COLUM_GAME_ID_CATEGORY = "id_category";
+    private static final String COLUM_GAME_NAME = "name";
+    private static final String COLUM_GAME_IMAGE = "image";
+    private static final String COLUM_GAME_DESCRIPTION = "description";
+
+    //Characteristicas
+    private static final String COLUM_CHARACTERISTICS_ID = "id_characteristics";
+    private static final String COLUM_CHARACTERISTICS_ID_GAME = "id_game";
+    private static final String COLUM_CHARACTERISTICS_IMAGE = "image";
+    private static final String COLUM_CHARACTERISTICS_ANSWERS = "answers";
+    private static final String COLUM_CHARACTERISTICS_TRUE_ANSWER = "true_answer";
 
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
 
@@ -157,6 +167,76 @@ public class DatabaseHelper extends SQLiteAssetHelper {
         cursor.close();
         db.close();
         return categories;
+    }
+
+    public List<Games> loadGamesCategory(int category) {
+        List<Games> games = new ArrayList<>();
+        String[] columns = {
+                COLUM_GAME_ID,
+                COLUM_GAME_ID_CATEGORY,
+                COLUM_GAME_NAME,
+                COLUM_GAME_IMAGE,
+                COLUM_GAME_DESCRIPTION
+        };
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = COLUM_GAME_ID_CATEGORY + " = ?";
+        String[] selectionArgs = {String.valueOf(category)};
+        Cursor cursor = db.query(TABLE_GAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            do {
+                Games game = new Games(
+                        cursor.getInt(cursor.getColumnIndex(COLUM_GAME_ID)),
+                        cursor.getInt(cursor.getColumnIndex(COLUM_GAME_ID_CATEGORY)),
+                        cursor.getBlob(cursor.getColumnIndex(COLUM_CATEGORY_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(COLUM_GAME_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COLUM_GAME_DESCRIPTION)));
+                games.add(game);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return games;
+    }
+
+    public List<Characteristics> loadGame(int gamess) {
+        List<Characteristics> games = new ArrayList<>();
+        String[] columns = {
+                COLUM_CHARACTERISTICS_ID,
+                COLUM_CHARACTERISTICS_ID_GAME,
+                COLUM_CHARACTERISTICS_IMAGE,
+                COLUM_CHARACTERISTICS_ANSWERS,
+                COLUM_CHARACTERISTICS_TRUE_ANSWER
+        };
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = COLUM_CHARACTERISTICS_ID_GAME + " = ?";
+        String[] selectionArgs = {String.valueOf(gamess)};
+        Cursor cursor = db.query(TABLE_CHARACTERISTICS,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null);
+        if (cursor.moveToFirst()) {
+            do {
+                Characteristics game = new Characteristics(
+                        cursor.getInt(cursor.getColumnIndex(COLUM_CHARACTERISTICS_ID)),
+                        cursor.getInt(cursor.getColumnIndex(COLUM_CHARACTERISTICS_ID_GAME)),
+                        cursor.getBlob(cursor.getColumnIndex(COLUM_CHARACTERISTICS_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(COLUM_CHARACTERISTICS_ANSWERS)),
+                        cursor.getString(cursor.getColumnIndex(COLUM_CHARACTERISTICS_TRUE_ANSWER)));
+                games.add(game);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return games;
     }
 
 //    public List<Category> checkImageCategories() {

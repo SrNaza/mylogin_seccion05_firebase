@@ -13,16 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="246dp"
+        android:layout_marginTop="215dp"
+        android:background="@drawable/edit_bg"
+        android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
         android:hint="Email"
-        android:textColor="#fff"
         android:inputType="textEmailAddress"
-        android:textColorHint="#fff"
-        android:background="@drawable/edit_bg"
         android:padding="10dp"
-        android:drawableLeft="@drawable/ic_action_user"
-        />
+        android:textColor="#fff"
+        android:textColorHint="#fff" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -30,15 +29,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="261dp"
+        android:layout_marginBottom="221dp"
+        android:background="@drawable/edit_bg"
+        android:drawableLeft="@drawable/ic_action_pass"
         android:ems="10"
         android:hint="Password"
-        android:textColor="#fff"
-        android:textColorHint="#fff"
         android:inputType="textPassword"
-        android:background="@drawable/edit_bg"
         android:padding="10dp"
-        android:drawableLeft="@drawable/ic_action_pass"/>
+        android:textColor="#fff"
+        android:textColorHint="#fff" />
 
     <Switch
         android:id="@+id/switchRemember"
@@ -79,4 +78,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
         app:srcCompat="@mipmap/ic_launcher_round" />
+
 </RelativeLayout>
